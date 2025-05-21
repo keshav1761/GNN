@@ -1,2 +1,2 @@
 # GNN
-A Classification model based on GNN to classify Protease inhibitors.
+A Classification model based on GNN to predict the class of Protease inhibitors.
