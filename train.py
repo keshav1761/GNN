@@ -82,27 +82,6 @@ def test(epoch, model, test_loader, loss_fn):
     log_conf_matrix(all_preds, all_labels, epoch)
     return running_loss/step
 
-# =============================================================================
-# def calculate_metrics(y_pred, y_true, epoch, type):
-#     print(f"F1 Score: {f1_score(y_true, y_pred, average='weighted')}")
-#     print(f"Accuracy: {accuracy_score(y_true, y_pred)}")
-#     prec = precision_score(y_true, y_pred, average='weighted')
-#     rec = recall_score(y_true, y_pred, average='weighted')
-#     print(f"Precision: {prec}")
-#     print(f"Recall: {rec}")
-# 
-#     # Log metrics
-#     mlflow.log_metric(key=f"Precision-{type}", value=float(prec), step=epoch)
-#     mlflow.log_metric(key=f"Recall-{type}", value=float(rec), step=epoch)
-#     try:
-#         roc = roc_auc_score(y_true, y_pred, multi_class='ovr')
-#         print(f"ROC AUC: {roc}")
-#         mlflow.log_metric(key=f"ROC-AUC-{type}", value=float(roc), step=epoch)
-#     except:
-#         mlflow.log_metric(key=f"ROC-AUC-{type}", value=float(0), step=epoch)
-#         print(f"ROC AUC: not defined")
-# =============================================================================
-
 def calculate_metrics(y_pred, y_true, epoch, type):
     f1 = f1_score(y_true, y_pred, average='weighted')
     acc = accuracy_score(y_true, y_pred)
@@ -138,25 +117,6 @@ def log_conf_matrix(y_pred, y_true, epoch):
     cfm_plot = sns.heatmap(df_cfm, annot=True, cmap='Blues', fmt='g')
     cfm_plot.figure.savefig(f'C:/Users/kesha/Desktop/PROJECT_12_MARCH/GNN_MULTI_NEGATIVE/cm_{epoch}.png')
     mlflow.log_artifact(f'C:/Users/kesha/Desktop/PROJECT_12_MARCH/GNN_MULTI_NEGATIVE/cm_{epoch}.png')
-
-# =============================================================================
-# def log_conf_matrix(y_pred, y_true, epoch):
-#     # Log confusion matrix as image
-#     unique_classes = np.unique(np.concatenate([y_pred, y_true]))
-#     cm = confusion_matrix(y_true, y_pred, labels=unique_classes)
-#     df_cfm = pd.DataFrame(cm, index=unique_classes, columns=unique_classes)
-#     
-#     plt.figure(figsize=(10, 7))
-#     cfm_plot = sns.heatmap(df_cfm, annot=True, cmap='Blues', fmt='g')
-#     cfm_plot.set_xlabel('Predicted')
-#     cfm_plot.set_ylabel('True')
-#     cfm_plot.set_title('Confusion Matrix')
-#     plt.savefig(f'C:/Users/kesha/Desktop/PROJECT_12_MARCH/GNN_MULTI_NEGATIVE/cm_{epoch}.png')
-#     plt.close()
-#     
-#     mlflow.log_artifact(f'C:/Users/kesha/Desktop/PROJECT_12_MARCH/GNN_MULTI_NEGATIVE/cm_{epoch}.png')
-# 
-# =============================================================================
 
 # Run the training
 from mango import scheduler, Tuner
@@ -241,4 +201,5 @@ tuner = Tuner(HYPERPARAMETERS,
               objective=run_one_training,
               conf_dict=config) 
 results = tuner.minimize()
+
 
